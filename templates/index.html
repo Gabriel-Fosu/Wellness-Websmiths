@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-light text-center mt-5">
+    <h1 class="display-4 text-primary mb-3">Welcome to Wellness Websmiths+</h1>
+    <p class="lead mb-4">Your personal health assistant for tips, diagnosis, and doctor appointments.</p>
+    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg me-2">Login</a>
+    <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">Register</a>
+</div>
+{% endblock %}

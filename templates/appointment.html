@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="d-flex justify-content-start mb-3">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-success me-2">
+            <i class="bi bi-house-door"></i> Home
+        </a>
+        <a href="javascript:history.back()" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h3 class="text-center text-primary mb-4">Book Appointment</h3>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label>Patient Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Doctor</label>
+                        <input type="text" class="form-control" name="doctor" value="{{ doctor }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Date</label>
+                        <input type="date" class="form-control" name="date" min="{{ current_date }}" required>
+                    </div>
+                    <button class="btn btn-primary w-100">Book Appointment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
