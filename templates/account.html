@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-start mb-3">
+  <a href="{{ url_for('dashboard') }}" class="btn btn-outline-success me-2">
+    <i class="bi bi-house-door"></i> Home
+  </a>
+  <a href="javascript:history.back()" class="btn btn-outline-primary">
+    <i class="bi bi-arrow-left"></i> Back
+  </a>
+</div>
+<div class="container mt-5">
+    <h2 class="mb-4">My Account</h2>
+
+    <!-- Profile Update -->
+    <form method="POST">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Profile Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="full_name" class="form-control"
+                           value="{{ user[0] or '' }}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Phone</label>
+                    <input type="text" name="phone" class="form-control"
+                           value="{{ user[1] or '' }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control"
+                           value="{{ user[2] or '' }}" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password Change -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Change Password</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Old Password</label>
+                    <div class="input-group">
+                        <input type="password" name="old_password" class="form-control" id="oldPassword">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">New Password</label>
+                    <div class="input-group">
+                        <input type="password" name="new_password" class="form-control" id="newPassword">
+                    </div>
+                    <small class="text-muted">At least 8 chars, with uppercase, lowercase, number, and symbol.</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Confirm New Password</label>
+                    <div class="input-group">
+                        <input type="password" name="confirm_new_password" class="form-control" id="confirmNewPassword">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+<script>
+function togglePassword(fieldId) {
+    const field = document.getElementById(fieldId);
+    field.type = field.type === "password" ? "text" : "password";
+}
+</script>
+{% endblock %}

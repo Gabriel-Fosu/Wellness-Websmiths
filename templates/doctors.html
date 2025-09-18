@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-start mb-3">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-success me-2">
+            <i class="bi bi-house-door"></i> Home
+    </a>
+  <a href="javascript:history.back()" class="btn btn-outline-primary">
+    <i class="bi bi-arrow-left"></i> Back
+  </a>
+</div>
+
+<h2 class="text-primary mb-4 text-center">Our Doctors</h2>
+<div class="row mb-3">
+    <div class="col-md-4 offset-md-4">
+        <input type="text" id="searchDoctor" class="form-control" placeholder="Search doctors...">
+    </div>
+</div>
+
+<!-- Region Filter Dropdown -->
+    <form method="get" class="mb-4 text-center">
+        <label for="region" class="me-2"><strong>Filter by Region:</strong></label>
+        <select name="region" id="region" onchange="this.form.submit()" class="form-select d-inline-block w-auto">
+            <option value="">All Regions</option>
+            <option value="greater accra" {% if selected_region == 'greater accra' %}selected{% endif %}>Greater Accra</option>
+            <option value="ashanti" {% if selected_region == 'ashanti' %}selected{% endif %}>Ashanti</option>
+            <option value="northern" {% if selected_region == 'northern' %}selected{% endif %}>Northern</option>
+            <option value="western" {% if selected_region == 'western' %}selected{% endif %}>Western</option>
+            <option value="volta" {% if selected_region == 'volta' %}selected{% endif %}>Volta</option>
+            <option value="eastern" {% if selected_region == 'eastern' %}selected{% endif %}>Eastern</option>
+            <option value="upper west" {% if selected_region == 'upper west' %}selected{% endif %}>Upper West</option>
+            <option value="brong-ahafo" {% if selected_region == 'brong-ahafo' %}selected{% endif %}>Brong-Ahafo</option>
+        </select>
+    </form>
+
+    <!-- Doctor Cards -->
+    <div class="row g-4">
+        {% for doctor in doctors %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <!-- Avatar image generated from doctor name -->
+                <img src="https://ui-avatars.com/api/?name={{ doctor['name'] | urlencode }}&background=0D8ABC&color=fff&size=200" class="card-img-top" alt="{{ doctor['name'] }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ doctor['name'] }}</h5>
+                    <p class="card-text"><strong>Qualification:</strong> {{ doctor['qualification'] }}</p>
+                    <p class="card-text"><strong>Facility:</strong> {{ doctor['facility'] }}</p>
+                    <p class="card-text"><strong>Region:</strong> {{ doctor['region'] }}</p>
+                    <p class="card-text"><strong>Location & Address:</strong> {{ doctor['location_address'] }}</p>
+                </div>
+                <a href="{{ url_for('appointment', doctor_name=doctor['name']) }}" class="btn btn-primary mt-2">
+                    Book Appointment
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if doctors|length == 0 %}
+    <p class="text-center mt-4">No doctors found in this region.</p>
+    {% endif %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.getElementById('searchDoctor').addEventListener('input', function() {
+    let filter = this.value.toLowerCase();
+    document.querySelectorAll('#doctorsList .col-md-4').forEach(card => {
+        let name = card.querySelector('.card-title').textContent.toLowerCase();
+        card.style.display = name.includes(filter) ? '' : 'none';
+    });
+});
+</script>
+{% endblock %}
