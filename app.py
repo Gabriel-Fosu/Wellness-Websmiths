@@ -34,8 +34,8 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # allow http for dev
 # -----------------------------
 # Google OAuth setup
 # -----------------------------
-app.config["GOOGLE_OAUTH_CLIENT_ID"] = "your_client_id_here"
-app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = "your_client_secret_here"
+app.config["GOOGLE_OAUTH_CLIENT_ID"] = os.getenv("GOOGLE_CLIENT_ID")
+app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = os.getenv("GOOGLE_CLIENT_SECRET")
 google_bp = make_google_blueprint(
     client_id=app.config["GOOGLE_OAUTH_CLIENT_ID"],
     client_secret=app.config["GOOGLE_OAUTH_CLIENT_SECRET"],
@@ -57,7 +57,7 @@ def is_strong_password(password):
         not re.search(r"[A-Z]", password) or
         not re.search(r"[a-z]", password) or
         not re.search(r"[0-9]", password) or
-        re.search(r"[!@#$%^&*(),.?\":{}|<>]", password)):
+        not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password)):
         return False
     return True
 
@@ -255,16 +255,16 @@ def diagnosis():
         if "fever" in symptoms or "chills" in symptoms or "sweating" in symptoms:
             result = "Possible Malaria"
             recommendation = "Seek medical attention and request a malaria test immediately."
-        elif "fever" in symptoms or "cough" in symptoms and "difficulty breathing" in symptoms:
+        elif (("fever" in symptoms) or ("cough" in symptoms)) and "difficulty breathing" in symptoms:
             result = "Possible Pneumonia"
             recommendation = "Consult a doctor immediately for chest X-ray and antibiotics."
         elif "wheezing" in symptoms or "shortness of breath" in symptoms:
             result = "Possible Asthma"
             recommendation = "Use prescribed inhaler and avoid triggers. Seek urgent care if severe."
-        elif "fever" in symptoms or "cough" in symptoms and "loss of taste" in symptoms:
+        elif (("fever" in symptoms) or ("cough" in symptoms)) and "loss of taste" in symptoms:
             result = "Possible COVID-19"
             recommendation = "Get tested for COVID-19 and self-isolate. Seek medical help if symptoms worsen."
-        elif "fatigue" in symptoms or "weight loss" in symptoms and "increased thirst" in symptoms:
+        elif (("fatigue" in symptoms) or ("weight loss" in symptoms)) and "increased thirst" in symptoms:
             result = "Possible Diabetes"
             recommendation = "Consult a doctor for blood sugar tests and lifestyle management."
         elif "chest pain" in symptoms or "shortness of breath" in symptoms:
@@ -444,4 +444,5 @@ def account():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
