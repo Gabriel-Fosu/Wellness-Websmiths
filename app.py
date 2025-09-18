@@ -27,7 +27,7 @@ import urllib.parse
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "my_first_python_website"
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # allow http for dev
 
@@ -444,5 +444,6 @@ def account():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
