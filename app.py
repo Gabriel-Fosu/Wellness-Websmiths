@@ -27,7 +27,7 @@ import urllib.parse
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  # change to something secure
+app.secret_key = "my_first_python_website"
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # allow http for dev
 
@@ -57,7 +57,7 @@ def is_strong_password(password):
         not re.search(r"[A-Z]", password) or
         not re.search(r"[a-z]", password) or
         not re.search(r"[0-9]", password) or
-        not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password)):
+        re.search(r"[!@#$%^&*(),.?\":{}|<>]", password)):
         return False
     return True
 
@@ -444,3 +444,4 @@ def account():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
